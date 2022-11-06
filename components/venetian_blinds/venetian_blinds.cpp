@@ -33,7 +33,7 @@ void VenetianBlinds::setup() {
     this->open_net_duration_ = this->open_duration - this->tilt_duration;
     this->close_net_duration_ = this->close_duration - this->tilt_duration;
 
-    this->exact_position_ = this->close_duration * this->position; // position factor should be same for both open and close even if both durations are different
+    this->exact_position_ = this->close_net_duration_ * this->position; // position factor should be same for both open and close even if both durations are different
     this->exact_tilt_ = this->tilt_duration * this->tilt;
 }
 
