@@ -179,6 +179,7 @@ void VenetianBlinds::recompute_position_() {
   ESP_LOGCONFIG(TAG, "  Action duration: %i", action_duration);
   ESP_LOGCONFIG(TAG, "  Tilt duration: %u", this->tilt_duration);
   ESP_LOGCONFIG(TAG, "  Tilt boundary: %i", tilt_boundary);
+  ESP_LOGCONFIG(TAG, "  Now - last recompute: %u", now - this->last_recompute_time_);
   ESP_LOGCONFIG(TAG, "    Tilt overlow: %i", tilt_overflow);
   ESP_LOGCONFIG(TAG, "    Exact Tilt: %i", this->exact_tilt_);
   ESP_LOGCONFIG(TAG, "    Exact Position: %i", this->exact_position_);
