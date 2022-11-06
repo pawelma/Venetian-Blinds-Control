@@ -172,16 +172,16 @@ void VenetianBlinds::recompute_position_() {
     this->exact_position_ = clamp(this->exact_position_, 0, action_duration);
   }
 
-  this->position = this->exact_position_ / action_duration;
-  this->tilt = this->exact_tilt_ / this->tilt_duration;
+  this->position = this->exact_position_ / (float)action_duration;
+  this->tilt = this->exact_tilt_ / (float)this->tilt_duration;
 
   ESP_LOGCONFIG(TAG, "  Direction %i", direction);
-  ESP_LOGCONFIG(TAG, "  Action duration: %u", action_duration);
+  ESP_LOGCONFIG(TAG, "  Action duration: %i", action_duration);
   ESP_LOGCONFIG(TAG, "  Tilt duration: %u", this->tilt_duration);
-  ESP_LOGCONFIG(TAG, "  Tilt boundary: %u", tilt_boundary);
-  ESP_LOGCONFIG(TAG, "    Tilt overlow: %u", tilt_overflow);
-  ESP_LOGCONFIG(TAG, "    Exact Tilt: %u", this->exact_tilt_);
-  ESP_LOGCONFIG(TAG, "    Exact Position: %u", this->exact_position_);
+  ESP_LOGCONFIG(TAG, "  Tilt boundary: %i", tilt_boundary);
+  ESP_LOGCONFIG(TAG, "    Tilt overlow: %i", tilt_overflow);
+  ESP_LOGCONFIG(TAG, "    Exact Tilt: %i", this->exact_tilt_);
+  ESP_LOGCONFIG(TAG, "    Exact Position: %i", this->exact_position_);
   ESP_LOGCONFIG(TAG, "      tilt: %.3f", this->tilt);
   ESP_LOGCONFIG(TAG, "      position: %.3f", this->position);
 
