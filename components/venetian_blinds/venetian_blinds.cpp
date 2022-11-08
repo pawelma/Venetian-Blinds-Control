@@ -15,8 +15,10 @@ void VenetianBlinds::dump_config() {
   ESP_LOGCONFIG(TAG, "  Close Duration: %.1fs", this->close_duration / 1e3f);
   ESP_LOGCONFIG(TAG, "  Tilt Open/Close Duration: %.1fs",
                 this->tilt_duration / 1e3f);
-  ESP_LOGCONFIG(TAG, "  Interlock Duration: %.1fs", this->interlock_duration / 1e3f);
-  ESP_LOGCONFIG(TAG, "  Motor Endstop Release Duration: %.2fs", this->motor_endstop_release_duration / 1e3f);
+  ESP_LOGCONFIG(TAG, "  Interlock Duration: %.1fs",
+                this->interlock_duration / 1e3f);
+  ESP_LOGCONFIG(TAG, "  Motor Endstop Release Duration: %.2fs",
+                this->motor_endstop_release_duration / 1e3f);
   ESP_LOGCONFIG(TAG, "  Open Net Duration: %.1fs",
                 this->open_net_duration_ / 1e3f);
   ESP_LOGCONFIG(TAG, "  Close Net Duration: %.1fs",
@@ -174,14 +176,18 @@ void VenetianBlinds::adjust_tilt_to_release_motor_endstop_(CoverOperation dir) {
 
   switch (dir) {
   case COVER_OPERATION_OPENING:
-    if (this->position == 0 && this->tilt == 0 && this->target_tilt_ <= this->motor_endstop_release_duration) {
+    if (this->position == 0 && this->tilt == 0 &&
+        this->target_tilt_ <= this->motor_endstop_release_duration) {
       this->tilt_adjustment_ = this->target_tilt_;
       this->target_tilt_ = this->motor_endstop_release_duration + 1;
     }
   case COVER_OPERATION_CLOSING:
-    if (this->position == 1 && this->tilt == 1 && (this->tilt_duration - this->target_tilt_) <= this->motor_endstop_release_duration) {
+    if (this->position == 1 && this->tilt == 1 &&
+        (this->tilt_duration - this->target_tilt_) <=
+            this->motor_endstop_release_duration) {
       this->tilt_adjustment_ = this->target_tilt_;
-      this->target_tilt_ = this->tilt_duration - this->motor_endstop_release_duration - 1;
+      this->target_tilt_ =
+          this->tilt_duration - this->motor_endstop_release_duration - 1;
     }
   default:
     return;
@@ -189,7 +195,8 @@ void VenetianBlinds::adjust_tilt_to_release_motor_endstop_(CoverOperation dir) {
 }
 
 void VenetianBlinds::execute_tilt_adjustment_() {
-  if (this->tilt_adjustment_ == -1 || this->tilt_adjustment_ == this->exact_tilt_) {
+  if (this->tilt_adjustment_ == -1 ||
+      this->tilt_adjustment_ == this->exact_tilt_) {
     this->tilt_adjustment_ = -1;
     return;
   }
@@ -201,7 +208,9 @@ void VenetianBlinds::execute_tilt_adjustment_() {
   this->target_position_ = this->exact_position_;
   this->tilt_adjustment_ = -1;
 
-  auto operation = this->last_operation_ == COVER_OPERATION_OPENING ? COVER_OPERATION_CLOSING : COVER_OPERATION_OPENING;
+  auto operation = this->last_operation_ == COVER_OPERATION_OPENING
+                       ? COVER_OPERATION_CLOSING
+                       : COVER_OPERATION_OPENING;
   this->start_direction_(operation);
 }
 

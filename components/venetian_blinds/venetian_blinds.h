@@ -19,8 +19,12 @@ public:
   void set_open_duration(uint32_t open) { this->open_duration = open; }
   void set_close_duration(uint32_t close) { this->close_duration = close; }
   void set_tilt_duration(uint32_t tilt) { this->tilt_duration = tilt; }
-  void set_interlock_duration(uint32_t interlock) { this->interlock_duration = interlock; }
-  void set_motor_endstop_release_duration(uint32_t motor_endstop_release) { this->motor_endstop_release_duration = motor_endstop_release; }
+  void set_interlock_duration(uint32_t interlock) {
+    this->interlock_duration = interlock;
+  }
+  void set_motor_endstop_release_duration(uint32_t motor_endstop_release) {
+    this->motor_endstop_release_duration = motor_endstop_release;
+  }
   void set_assumed_state(bool value) { this->assumed_state = value; }
 
 protected:
