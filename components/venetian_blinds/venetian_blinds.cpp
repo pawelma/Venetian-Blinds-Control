@@ -72,6 +72,7 @@ void VenetianBlinds::control(const CoverCall &call) {
         this->target_tilt_ = 1.0f;
       }
 
+      this->tilt_adjustment_ = this->exact_tilt_;
       this->target_position_ = requested_position * operation_duration;
       this->start_direction_(operation);
     }
@@ -89,8 +90,10 @@ void VenetianBlinds::control(const CoverCall &call) {
 }
 
 void VenetianBlinds::loop() {
-  if (this->current_operation == COVER_OPERATION_IDLE)
+  if (this->current_operation == COVER_OPERATION_IDLE) {
+    this->execute_tilt_adjustment_();
     return;
+  }
 
   const uint32_t now = millis();
 
@@ -161,6 +164,23 @@ void VenetianBlinds::start_direction_(CoverOperation dir) {
   this->stop_prev_trigger_();
   trig->trigger();
   this->prev_command_trigger_ = trig;
+}
+
+void VenetianBlinds::execute_tilt_adjustment_() {
+  if (this->tilt_adjustment_ == -1 || this->tilt_adjustment_ == this->exact_tilt_) {
+    this->tilt_adjustment_ = -1;
+    return;
+  }
+
+  if (millis() - this->start_dir_time_ <= this->interlock_duration)
+    return;
+
+  this->target_tilt_ = this->tilt_adjustment_;
+  this->target_position_ = this->exact_position_;
+  this->tilt_adjustment_ = -1;
+
+  auto operation = this->last_operation_ == COVER_OPERATION_OPENING ? COVER_OPERATION_CLOSING : COVER_OPERATION_OPENING;
+  this->start_direction_(operation);
 }
 
 void VenetianBlinds::recompute_position_() {
