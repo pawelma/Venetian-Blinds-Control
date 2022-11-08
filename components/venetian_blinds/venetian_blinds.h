@@ -20,6 +20,7 @@ public:
   void set_close_duration(uint32_t close) { this->close_duration = close; }
   void set_tilt_duration(uint32_t tilt) { this->tilt_duration = tilt; }
   void set_interlock_duration(uint32_t interlock) { this->interlock_duration = interlock; }
+  void set_motor_endstop_release_duration(uint32_t motor_endstop_release) { this->motor_endstop_release_duration = motor_endstop_release; }
   void set_assumed_state(bool value) { this->assumed_state = value; }
 
 protected:
@@ -29,7 +30,15 @@ protected:
   uint32_t open_duration;
   uint32_t close_duration;
   uint32_t tilt_duration;
+  // Optional field to not lose accuracy on tilt restore
+  //  while up/down switches are 'toggled'
   uint32_t interlock_duration{0};
+  // Optional field is to release endstop in case
+  //  when tilted from 0 by small increment
+  //  and motor unable to go back back to 0 after that action
+  //  as it still believes it reached the endstop.
+  // It is expected that it's value is lesser than tilt duration
+  uint32_t motor_endstop_release_duration{0};
   bool assumed_state{false};
 
 private:
@@ -48,6 +57,7 @@ private:
   void execute_tilt_adjustment_();
   bool is_at_target_() const;
   void start_direction_(cover::CoverOperation dir);
+  void adjust_tilt_to_release_motor_endstop_(cover::CoverOperation dir);
   void recompute_position_();
 
   Trigger<> *prev_command_trigger_{nullptr};
