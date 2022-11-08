@@ -15,6 +15,7 @@ void VenetianBlinds::dump_config() {
   ESP_LOGCONFIG(TAG, "  Close Duration: %.1fs", this->close_duration / 1e3f);
   ESP_LOGCONFIG(TAG, "  Tilt Open/Close Duration: %.1fs",
                 this->tilt_duration / 1e3f);
+  ESP_LOGCONFIG(TAG, "  Interlock Duration: %.1fs", this->interlock_duration / 1e3f);
   ESP_LOGCONFIG(TAG, "  Open Net Duration: %.1fs",
                 this->open_net_duration_ / 1e3f);
   ESP_LOGCONFIG(TAG, "  Close Net Duration: %.1fs",
