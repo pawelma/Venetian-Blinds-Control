@@ -211,6 +211,7 @@ void VenetianBlinds::execute_tilt_adjustment_() {
   auto operation = this->last_operation_ == COVER_OPERATION_OPENING
                        ? COVER_OPERATION_CLOSING
                        : COVER_OPERATION_OPENING;
+  this->adjust_tilt_to_release_motor_endstop_(operation);
   this->start_direction_(operation);
 }
 
